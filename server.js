@@ -4,6 +4,17 @@ const jwt = require('jsonwebtoken');
 const app = express();
 app.use(express.json());
 
+// Permitir acceso CORS para que cualquier cliente (como nuestra demo o apps de terceros) hable con la API
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    next();
+});
+
 const SECRET_KEY = 'NUESTRA_CLAVE_SECRETA_SUPER_SEGURA';
 
 app.post('/api/v1/verify', (req, res) => {
@@ -30,7 +41,6 @@ app.post('/api/v1/verify', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-// Añadimos '0.0.0.0' para que Render abra la puerta correctamente hacia internet
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor de NullEdge rugiendo en el puerto ${PORT}`);
 });
