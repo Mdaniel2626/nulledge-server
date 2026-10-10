@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 app.use(express.json());
 
-// Permitir acceso CORS para que cualquier cliente (como nuestra demo o apps de terceros) hable con la API
+// Permitir acceso CORS para que cualquier cliente hable con la API
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -15,7 +15,8 @@ app.use((req, res, next) => {
     next();
 });
 
-const SECRET_KEY = 'NUESTRA_CLAVE_SECRETA_SUPER_SEGURA';
+// CLAVE SECRETA SEGURA: Se lee desde las variables de entorno de la nube
+const SECRET_KEY = process.env.SECRET_KEY || 'llave_temporal_de_respaldo';
 
 app.post('/api/v1/verify', (req, res) => {
     const { cryptographicProof } = req.body;
