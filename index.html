@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NullEdge | Verificación de Identidad Zero-Vault</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f4f8fc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent-cyan: #0284c7;
+            --neon-glow: rgba(2, 132, 199, 0.5);
+        }
+
+        html {
+            scroll-behavior: smooth; /* Navegación fluida al hacer clic en anclajes */
+        }
+
+        @keyframes ambientLight {
+            0% { background-color: #ffffff; }
+            50% { background-color: #f0f6ff; }
+            100% { background-color: #ffffff; }
+        }
+
+        /* Animación de desplazamiento horizontal continuo (Efecto Mobileye) */
+        @keyframes scrollHorizontal {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Líneas de datos de neón en movimiento horizontal */
+        @keyframes flowNeonLines {
+            0% { background-position: 0 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { box-shadow: 0 10px 30px rgba(2, 132, 199, 0.15); border-color: rgba(2, 132, 199, 0.35); }
+            50% { box-shadow: 0 15px 40px rgba(56, 189, 248, 0.4); border-color: rgba(56, 189, 248, 0.8); }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            animation: ambientLight 20s infinite ease-in-out;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 60px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            margin-left: 25px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .btn-header {
+            background-color: var(--text-main);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-header:hover {
+            background-color: var(--accent-cyan);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 140px 20px 40px 20px;
+        }
+
+        /* --- ILUSTRACIÓN DE LA CIUDAD DE FONDO (ciudad.jpg) --- */
+        .city-skyline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 360px;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.38;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .city-skyline img {
+            width: 100%;
+            max-width: 1400px;
+            height: 100%;
+            object-fit: contain;
+            object-position: bottom center;
+            mix-blend-mode: multiply;
+            filter: brightness(1.25) contrast(0.9);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 35px;
+            border-radius: 16px;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 46px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 15px;
+            line-height: 1.15;
+        }
+
+        h1 span {
+            color: var(--accent-cyan);
+        }
+
+        p.subtitle {
+            font-size: 17px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .btn-cta {
+            background-color: var(--text-main);
+            color: #ffffff;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-cta:hover {
+            background-color: var(--accent-cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.3);
+        }
+
+        /* --- CONTENEDOR DE MOVIMIENTO HORIZONTAL --- */
+        .marquee-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            z-index: 3;
+            padding: 30px 0;
+        }
+
+        .marquee-container::before {
+            content: '';
+            position: absolute;
+            top: 55%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.6), #0284c7, rgba(56, 189, 248, 0.6), transparent);
+            background-size: 1000px 3px;
+            animation: flowNeonLines 4s linear infinite;
+            z-index: 1;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 75px;
+            width: max-content;
+            animation: scrollHorizontal 35s linear infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        .person-traveler-card {
+            width: 150px;
+            height: 230px;
+            border-radius: 16px;
+            border: 1.5px solid rgba(2, 132, 199, 0.3);
+            overflow: hidden;
+            animation: neonPulse 3.5s infinite ease-in-out;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 12px 35px rgba(2, 132, 199, 0.12);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .person-traveler-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        /* --- MODAL DE ACCESO SDK --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            position: relative;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: none; border: none;
+            font-size: 24px; cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--text-main);
+        }
+
+        .modal-container h2 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .modal-container p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        .btn-modal-submit {
+            background-color: var(--text-main);
+            color: #ffffff;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-modal-submit:hover {
+            background-color: var(--accent-cyan);
+        }
+
+        /* --- SECCIÓN CARACTERÍSTICAS B2B OPTIMIZADA CON INTERACCIÓN --- */
+        .features-section {
+            background-color: var(--bg-secondary);
+            padding: 100px 40px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .features-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 40px 35px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: default;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px rgba(2, 132, 199, 0.12);
+            border-color: rgba(2, 132, 199, 0.4);
+        }
+
+        .card h3 {
+            color: var(--accent-cyan);
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 15px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* --- FOOTER CORPORATIVO PULIDO --- */
+        footer {
+            background-color: var(--bg-primary);
+            color: var(--text-muted);
+            padding: 70px 40px 40px 40px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-brand .logo {
+            font-size: 22px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+            max-width: 320px;
+        }
+
+        .footer-links h4 {
+            color: var(--text-main);
+            font-size: 15px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 18px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .footer-bottom {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding-top: 25px;
+            border-top: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        /* --- OPTIMIZACIÓN RESPONSIVE (MÓVILES Y TABLETS) --- */
+        @media (max-width: 768px) {
+            header {
+                padding: 18px 20px;
+            }
+
+            .nav-links a:not(.btn-header) {
+                display: none;
+            }
+
+            .hero {
+                padding: 120px 15px 30px 15px;
+                min-height: auto;
+            }
+
+            .hero-content {
+                padding: 25px 20px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            p.subtitle {
+                font-size: 15px;
+            }
+
+            .features-section {
+                padding: 60px 20px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .modal-container {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Null<span>Edge</span>.</a>
+        <div class="nav-links">
+            <a href="#caracteristicas">Soluciones</a>
+            <a href="#contacto" class="btn-header" id="openSdkModalBtn">Acceso SDK</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <!-- --- ILUSTRACIÓN DE LA CIUDAD DE FONDO (ciudad.jpg) --- -->
+        <div class="city-skyline">
+            <img src="ciudad.jpg" alt="Santiago Skyline Costanera Center">
+        </div>
+
+        <div class="hero-content">
+            <h1>Identidad Digital Universal.<br><span>Privacidad Absoluta en el Borde.</span></h1>
+            <p class="subtitle">La infraestructura biométrica que acompaña a cada usuario en su día a día. Cero almacenamiento central, máxima seguridad corporativa.</p>
+            <a href="#caracteristicas" class="btn-cta" id="exploreBtn">Explorar Arquitectura</a>
+        </div>
+
+        <!-- CINTA DE MOVIMIENTO HORIZONTAL -->
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <!-- Grupo 1 -->
+                <div class="person-traveler-card"><img src="user_1.png" alt="Adulto Mayor"></div>
+                <div class="person-traveler-card"><img src="user_2.png" alt="Madre con bebé"></div>
+                <div class="person-traveler-card"><img src="user_3.png" alt="Ejecutiva"></div>
+                <div class="person-traveler-card"><img src="user_4.png" alt="Estudiante"></div>
+                <div class="person-traveler-card"><img src="user_5.png" alt="Empresario"></div>
+                <div class="person-traveler-card"><img src="user_6.png" alt="Perfil con tablet"></div>
+
+                <!-- Grupo 2 (Duplicado para loop infinito perfecto) -->
+                <div class="person-traveler-card"><img src="user_1.png" alt="Adulto Mayor"></div>
+                <div class="person-traveler-card"><img src="user_2.png" alt="Madre con bebé"></div>
+                <div class="person-traveler-card"><img src="user_3.png" alt="Ejecutiva"></div>
+                <div class="person-traveler-card"><img src="user_4.png" alt="Estudiante"></div>
+                <div class="person-traveler-card"><img src="user_5.png" alt="Empresario"></div>
+                <div class="person-traveler-card"><img src="user_6.png" alt="Perfil con tablet"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL DE ACCESO SDK -->
+    <div id="sdkModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" id="closeSdkModal">&times;</button>
+            <h2>Acceso al SDK Zero-Vault</h2>
+            <p>Integre validación biométrica descentralizada en minutos. Complete sus datos corporativos para generar credenciales de prueba.</p>
+            <form id="sdkForm">
+                <div class="form-group">
+                    <label for="corpEmail">Correo Corporativo</label>
+                    <input type="email" id="corpEmail" required placeholder="nombre@empresa.com">
+                </div>
+                <div class="form-group">
+                    <label for="companyName">Organización / Empresa</label>
+                    <input type="text" id="companyName" required placeholder="Nombre de su compañía">
+                </div>
+                <button type="submit" class="btn-modal-submit">Generar Token SDK</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SECCIÓN CARACTERÍSTICAS B2B -->
+    <section id="caracteristicas" class="features-section">
+        <div class="features-container">
+            <div style="text-align: center; max-width: 650px; margin: 0 auto 50px auto;">
+                <h2 style="font-size: 34px; font-weight: 800; letter-spacing: -1px; margin-bottom: 15px;">Diseñado para proteger a toda la sociedad</h2>
+                <p style="color: var(--text-muted); font-size: 15px;">Una tecnología robusta e inclusiva que se adapta de forma fluida a cualquier dispositivo y estilo de vida.</p>
+            </div>
+            <div class="features-grid">
+                <div class="card">
+                    <h3>Zero-Vault Architecture</h3>
+                    <p>Los datos biométricos se procesan íntegramente en el dispositivo local y se destruyen al instante. Ninguna imagen o rostro toca jamás nuestros servidores.</p>
+                </div>
+                <div class="card">
+                    <h3>Anti-Bot & Vivacidad</h3>
+                    <p>Validaciones criptográficas de alta precisión que garantizan la presencia humana en tiempo real, neutralizando suplantaciones y ataques automatizados.</p>
+                </div>
+                <div class="card">
+                    <h3>Integración Modular B2B</h3>
+                    <p>Despliegue nuestro SDK ligero en minutos. Emisión inmediata de tokens JWT seguros listos para integrarse con los sistemas de control de su empresa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER CORPORATIVO -->
+    <footer id="contacto">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#" class="logo">Null<span>Edge</span>.</a>
+                <p>Infraestructura de identidad digital descentralizada basada en arquitectura Zero-Vault. Privacidad y seguridad absoluta en el borde.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Desarrolladores</h4>
+                <ul>
+                    <li><a href="#" id="footerSdkBtn">Documentación SDK</a></li>
+                    <li><a href="#caracteristicas">Arquitectura B2B</a></li>
+                    <li><a href="#" onclick="alert('Estado de los servicios: 100% Operativos'); return false;">Estado de la Red</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal & Privacidad</h4>
+                <ul>
+                    <li><a href="#" onclick="alert('NullEdge opera bajo estricto diseño Zero-Vault: ninguna biometría es almacenada.'); return false;">Política de Privacidad</a></li>
+                    <li><a href="#" onclick="alert('Términos de servicio para despliegue Enterprise v2.6'); return false;">Términos de Servicio</a></li>
+                    <li><a href="#" onclick="alert('Contacto de seguridad: security@nulledge.com'); return false;">Seguridad y Cumplimiento</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 NullEdge Technologies. Todos los derechos reservados.</p>
+            <p>Santiago, Chile 🇨🇱</p>
+        </div>
+    </footer>
+
+    <script>
+        // Lógica interactiva del Modal SDK optimizada para móviles (iOS/Android) y Footer
+        const modal = document.getElementById('sdkModal');
+        const openBtn = document.getElementById('openSdkModalBtn');
+        const footerSdkBtn = document.getElementById('footerSdkBtn');
+        const closeBtn = document.getElementById('closeSdkModal');
+        const sdkForm = document.getElementById('sdkForm');
+
+        function openModal(e) {
+            e.preventDefault();
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        openBtn.addEventListener('click', openModal);
+        openBtn.addEventListener('touchstart', openModal);
+
+        if (footerSdkBtn) {
+            footerSdkBtn.addEventListener('click', openModal);
+            footerSdkBtn.addEventListener('touchstart', openModal);
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        closeBtn.addEventListener('touchstart', closeModal);
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        sdkForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('¡Credenciales SDK solicitadas con éxito! Revise su correo corporativo.');
+            closeModal();
+            sdkForm.reset();
+        });
+    </script>
+
+</body>
+</html>
