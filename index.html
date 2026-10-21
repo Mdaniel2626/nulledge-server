@@ -146,38 +146,43 @@
             filter: brightness(1.25) contrast(0.9);
         }
 
-        /* Estilos del Hero Slider */
         .hero-slider-container {
             position: relative;
             z-index: 3;
             width: 100%;
             max-width: 1100px;
-            margin: 0 auto;
+            margin: 0 auto 20px auto;
+            min-height: 380px; /* Altura fija para evitar saltos entre slides */
         }
 
         .hero-slide {
             display: none;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.4s ease-in-out;
             width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
         }
 
         .hero-slide.active {
             display: block;
             opacity: 1;
+            position: relative;
         }
 
         .hero-content {
             position: relative;
             z-index: 3;
             max-width: 800px;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(10px);
             padding: 35px;
             border-radius: 16px;
             border: 1px solid rgba(226, 232, 240, 0.9);
             box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            margin: 0 auto 30px auto;
+            margin: 0 auto;
         }
 
         h1 {
@@ -245,29 +250,30 @@
             justify-content: space-between;
             gap: 35px;
             flex-wrap: wrap;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(12px);
-            padding: 35px;
+            padding: 30px 35px;
             border-radius: 20px;
             border: 1px solid rgba(2, 132, 199, 0.2);
             box-shadow: 0 20px 50px rgba(2, 132, 199, 0.08);
             text-align: left;
-            margin-bottom: 30px;
+            max-width: 950px;
+            margin: 0 auto;
         }
 
         .nully-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            max-width: 260px;
+            max-width: 240px;
             margin: 0 auto;
             text-align: center;
         }
 
         .nully-avatar-img {
-            width: 200px;
+            width: 170px;
             height: auto;
-            filter: drop-shadow(0 10px 25px rgba(2, 132, 199, 0.35));
+            filter: drop-shadow(0 10px 20px rgba(2, 132, 199, 0.35));
             animation: floatNully 3s ease-in-out infinite;
         }
 
@@ -280,11 +286,11 @@
             background: #ffffff;
             border: 2px solid var(--accent-cyan);
             border-radius: 14px;
-            padding: 12px 16px;
-            margin-top: 15px;
+            padding: 10px 14px;
+            margin-top: 10px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
             color: var(--text-main);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
         }
 
@@ -295,16 +301,16 @@
 
         .didactic-steps-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
         }
 
         .step-card {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
-            padding: 16px;
+            padding: 14px;
             transition: all 0.2s ease;
         }
 
@@ -314,24 +320,24 @@
         }
 
         .step-number {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
             color: var(--accent-cyan);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .step-card h3 {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             color: var(--text-main);
         }
 
         .step-card p {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
             margin: 0;
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         /* Controles de navegación del Slider */
@@ -339,7 +345,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 15px;
             position: relative;
             z-index: 5;
         }
@@ -359,13 +365,13 @@
             border-radius: 5px;
         }
 
-        /* --- SECCIÓN DE MOVIMIENTO HORIZONTAL (MARQUEE) --- */
+        /* --- SECCIÓN DE MOVIMIENTO HORIZONTAL (MARQUEE FIJO ABAJO) --- */
         .marquee-container {
             position: relative;
             width: 100%;
             overflow: hidden;
             z-index: 3;
-            padding: 20px 0;
+            padding: 20px 0 10px 0;
         }
 
         .marquee-container::before {
@@ -852,15 +858,16 @@
         </div>
     </header>
 
-    <!-- HERO SECTION CON SLIDER INTEGRADO (SLIDE 1: ENTERPRISE | SLIDE 2: NULLY DIDÁCTICO) -->
+    <!-- HERO SECTION CON SLIDER EN EL BANNER Y CARRUSEL FIJO ABAJO -->
     <section class="hero">
         <div class="city-skyline">
             <img src="ciudad.jpg" alt="Santiago Skyline Costanera Center">
         </div>
 
+        <!-- CONTENEDOR DEL SLIDER (SOLO CAMBIA EL BANNER SUPERIOR) -->
         <div class="hero-slider-container">
 
-            <!-- SLIDE 1: El diseño original oficial con la tarjeta blanca y el marquee -->
+            <!-- SLIDE 1: Tarjeta Blanca Enterprise Original -->
             <div class="hero-slide active">
                 <div class="hero-content">
                     <h1>Identidad Digital Universal.<br><span>Privacidad Absoluta en el Borde.</span></h1>
@@ -868,24 +875,6 @@
                     <div class="hero-buttons">
                         <a href="#verificacion" class="btn-cta">Probar Verificación Real</a>
                         <a href="#sandbox" class="btn-cta btn-secondary">Sandbox API</a>
-                    </div>
-                </div>
-
-                <div class="marquee-container">
-                    <div class="marquee-track">
-                        <div class="person-traveler-card"><img src="user_1.png" alt="Adulto Mayor"></div>
-                        <div class="person-traveler-card"><img src="user_2.png" alt="Madre con bebé"></div>
-                        <div class="person-traveler-card"><img src="user_3.png" alt="Ejecutiva"></div>
-                        <div class="person-traveler-card"><img src="user_4.png" alt="Estudiante"></div>
-                        <div class="person-traveler-card"><img src="user_5.png" alt="Empresario"></div>
-                        <div class="person-traveler-card"><img src="user_6.png" alt="Perfil con tablet"></div>
-
-                        <div class="person-traveler-card"><img src="user_1.png" alt="Adulto Mayor"></div>
-                        <div class="person-traveler-card"><img src="user_2.png" alt="Madre con bebé"></div>
-                        <div class="person-traveler-card"><img src="user_3.png" alt="Ejecutiva"></div>
-                        <div class="person-traveler-card"><img src="user_4.png" alt="Estudiante"></div>
-                        <div class="person-traveler-card"><img src="user_5.png" alt="Empresario"></div>
-                        <div class="person-traveler-card"><img src="user_6.png" alt="Perfil con tablet"></div>
                     </div>
                 </div>
             </div>
@@ -933,6 +922,25 @@
                 <span class="dot" onclick="currentSlide(2)" title="Conocer a Nully"></span>
             </div>
 
+        </div>
+
+        <!-- CARRUSEL DE PERSONAS (AHORA FUERA DEL SLIDER, PERMANENTE Y FIJO ABAJO) -->
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <div class="person-traveler-card"><img src="user_1.png" alt="Adulto Mayor"></div>
+                <div class="person-traveler-card"><img src="user_2.png" alt="Madre con bebé"></div>
+                <div class="person-traveler-card"><img src="user_3.png" alt="Ejecutiva"></div>
+                <div class="person-traveler-card"><img src="user_4.png" alt="Estudiante"></div>
+                <div class="person-traveler-card"><img src="user_5.png" alt="Empresario"></div>
+                <div class="person-traveler-card"><img src="user_6.png" alt="Perfil con tablet"></div>
+
+                <div class="person-traveler-card"><img src="user_1.png" alt="Adulto Mayor"></div>
+                <div class="person-traveler-card"><img src="user_2.png" alt="Madre con bebé"></div>
+                <div class="person-traveler-card"><img src="user_3.png" alt="Ejecutiva"></div>
+                <div class="person-traveler-card"><img src="user_4.png" alt="Estudiante"></div>
+                <div class="person-traveler-card"><img src="user_5.png" alt="Empresario"></div>
+                <div class="person-traveler-card"><img src="user_6.png" alt="Perfil con tablet"></div>
+            </div>
         </div>
     </section>
 
@@ -1272,7 +1280,7 @@
                         &nbsp;&nbsp;<span style="color: #38bdf8;">"code"</span>: <span style="color: #f59e0b;">200</span>,<br>
                         &nbsp;&nbsp;<span style="color: #38bdf8;">"jwt_token"</span>: <span style="color: #10b981;">"eyJhbGciOiJIUzI1NiIsIn..."</span>,<br>
                         &nbsp;&nbsp;<span style="color: #38bdf8;">"zero_vault_audit"</span>: <span style="color: #10b981;">"verified_edge_destruction"</span><br>
-                        <span style="color: #f8fafc;"><span>}</span>
+                        <span style="color: #f8fafc;">}</span>
                     `;
                 } else {
                     throw new Error('Status ' + response.status);
@@ -1287,7 +1295,7 @@
                         &nbsp;&nbsp;<span style="color: #38bdf8;">"status"</span>: <span style="color: #10b981;">"success"</span>,<br>
                         &nbsp;&nbsp;<span style="color: #38bdf8;">"code"</span>: <span style="color: #f59e0b;">200</span>,<br>
                         &nbsp;&nbsp;<span style="color: #38bdf8;">"jwt_token"</span>: <span style="color: #10b981;">"eyJhbGciOiJIUzI1NiIsInNlY3VyZSJ9..."</span>,<br>
-                        &nbsp;&nbsp;<span style="color: #38bdf8;">"zero_vault_audit"</span>: <span style="color: #10b981;">"verified_edge_destruction"</span><br>
+                        &nbsp;&nbsp;<span style="color: #38bdf8;">"zero_vault_audit"</span>: <span style="color: #10b981;">"verified_edge_dimensions"</span><br>
                         <span style="color: #f8fafc;">}</span>
                     `;
                 }, 500);
