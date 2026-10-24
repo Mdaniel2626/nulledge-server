@@ -271,7 +271,7 @@
         }
 
         .nully-avatar-img {
-            width: 175px; /* Nully más grande */
+            width: 175px;
             height: auto;
             filter: drop-shadow(0 12px 25px rgba(2, 132, 199, 0.38));
             animation: floatNully 3s ease-in-out infinite;
@@ -283,7 +283,6 @@
             50% { transform: translateY(-8px); }
         }
 
-        /* Estilo Globo de Diálogo Superior (Sobre la cabeza) */
         .speech-bubble {
             position: relative;
             background: #ffffff;
@@ -300,7 +299,6 @@
             box-sizing: border-box;
         }
 
-        /* Colita del bocadillo apuntando hacia abajo (hacia la cabeza de Nully) */
         .speech-bubble::after {
             content: '';
             position: absolute;
@@ -333,7 +331,7 @@
 
         .didactic-steps-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columnas fijas y ordenadas */
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
             margin-top: 10px;
         }
@@ -344,11 +342,13 @@
             border-radius: 12px;
             padding: 14px 10px;
             transition: all 0.2s ease;
+            cursor: pointer; /* Indica que se puede hacer clic */
         }
 
         .step-card:hover {
             border-color: var(--accent-cyan);
-            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.08);
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.12);
+            transform: translateY(-3px); /* Pequeño salto elegante al pasar el mouse */
         }
 
         .step-number {
@@ -370,6 +370,95 @@
             color: var(--text-muted);
             margin: 0;
             line-height: 1.35;
+        }
+
+        /* --- MODAL DETALLE DE PASOS CON NULLY --- */
+        .step-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .step-modal-container {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            position: relative;
+            border: 1px solid rgba(2, 132, 199, 0.3);
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .step-modal-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+
+        .step-modal-avatar {
+            width: 80px;
+            height: auto;
+            flex-shrink: 0;
+        }
+
+        .step-modal-title-box h3 {
+            margin: 0 0 5px 0;
+            font-size: 20px;
+            color: var(--text-main);
+            font-weight: 800;
+        }
+
+        .step-modal-title-box span {
+            color: var(--accent-cyan);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .step-modal-body p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+        }
+
+        .step-modal-body ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--text-main);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .step-modal-body li {
+            margin-bottom: 6px;
+        }
+
+        .step-modal-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: none; border: none;
+            font-size: 24px; cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .step-modal-close:hover {
+            color: var(--text-main);
         }
 
         /* Controles de navegación del Slider */
@@ -874,7 +963,7 @@
             .sandbox-grid { grid-template-columns: 1fr; }
             .footer-container { grid-template-columns: 1fr; gap: 30px; }
             .footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
-            .modal-container { padding: 25px 20px; }
+            .modal-container, .step-modal-container { padding: 25px 20px; }
         }
     </style>
 </head>
@@ -911,34 +1000,34 @@
                 </div>
             </div>
 
-            <!-- SLIDE 2: Versión Didáctica con Nully Grande y Globo Superior -->
+            <!-- SLIDE 2: Versión Didáctica con Nully y Tarjetas Clickeables -->
             <div class="hero-slide">
                 <div class="hero-didactic-layout">
-                    <!-- Columna Izquierda: Nully Grande con Globo Arriba -->
+                    <!-- Columna Izquierda: Nully Grande con Globo Superior -->
                     <div class="nully-container">
                         <div class="speech-bubble">
-                            <p style="margin:0;">¡Hola! Soy <strong>Nully</strong>. Te enseñaré cómo funciona nuestra privacidad total en 3 simples pasos.</p>
+                            <p style="margin:0;">¡Hola! Haz clic en cualquier tarjeta de la derecha y te explicaré los detalles de cada paso.</p>
                         </div>
                         <img src="nully-avatar.png" alt="Nully Asistente NullEdge" class="nully-avatar-img" />
                     </div>
 
-                    <!-- Columna Derecha: Tarjetas Didácticas Alineadas -->
+                    <!-- Columna Derecha: Tarjetas Didácticas Clickeables -->
                     <div class="didactic-content-box">
                         <span style="display:inline-block; margin-bottom:8px; background:rgba(2, 132, 199, 0.1); color:var(--accent-cyan); padding:5px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">¿Cómo Funciona?</span>
                         <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; color: var(--text-main);">Privacidad Absoluta</h2>
                         
                         <div class="didactic-steps-grid">
-                            <div class="step-card">
+                            <div class="step-card" onclick="openStepModal(1)">
                                 <div class="step-number">01</div>
                                 <h3>Captura en el Borde</h3>
                                 <p>El rostro o vector biométrico se procesa en tu dispositivo local.</p>
                             </div>
-                            <div class="step-card">
+                            <div class="step-card" onclick="openStepModal(2)">
                                 <div class="step-number">02</div>
                                 <h3>Validación Cifrada</h3>
                                 <p>Se valida mediante enclaves seguros sin guardar plantillas.</p>
                             </div>
-                            <div class="step-card">
+                            <div class="step-card" onclick="openStepModal(3)">
                                 <div class="step-number">03</div>
                                 <h3>Destrucción Efímera</h3>
                                 <p>Los datos se borran al instante, eliminando todo riesgo.</p>
@@ -975,6 +1064,23 @@
             </div>
         </div>
     </section>
+
+    <!-- MODAL DINÁMICO PARA LOS PASOS CON NULLY -->
+    <div id="stepModal" class="step-modal-overlay">
+        <div class="step-modal-container">
+            <button class="step-modal-close" id="closeStepModal">&times;</button>
+            <div class="step-modal-header">
+                <img src="nully-avatar.png" alt="Nully" class="step-modal-avatar">
+                <div class="step-modal-title-box">
+                    <span id="stepModalTag">Paso 01</span>
+                    <h3 id="stepModalTitle">Captura en el Borde</h3>
+                </div>
+            </div>
+            <div class="step-modal-body" id="stepModalText">
+                <!-- El texto se actualizará automáticamente con JavaScript -->
+            </div>
+        </div>
+    </div>
 
     <!-- SECCIÓN DE VERIFICACIÓN BIOMÉTRICA EN VIVO (REAL) -->
     <section id="verificacion" class="verification-section">
@@ -1155,6 +1261,74 @@
             if (slideIndex > slides.length) { slideIndex = 1; }
             showSlides(slideIndex);
         }, 9000);
+
+
+        // --- LÓGICA DE LA VENTANA MODAL PARA CADA PASO CON NULLY ---
+        const stepModal = document.getElementById('stepModal');
+        const closeStepModalBtn = document.getElementById('closeStepModal');
+        const stepModalTag = document.getElementById('stepModalTag');
+        const stepModalTitle = document.getElementById('stepModalTitle');
+        const stepModalText = document.getElementById('stepModalText');
+
+        // Información detallada explicada por Nully para cada paso
+        const stepsData = {
+            1: {
+                tag: "Paso 01 — Arquitectura Local",
+                title: "Captura en el Borde",
+                content: `
+                    <p>¡Hola de nuevo! Como tu asistente <strong>Nully</strong> te explico: en este primer paso, cuando escaneas tu rostro o vector biométrico, <strong>todo el procesamiento ocurre directamente en tu dispositivo</strong> (tu celular o computador personal).</p>
+                    <ul>
+                        <li><strong>Cero exposición:</strong> La imagen o video jamás viaja por internet hacia servidores externos.</li>
+                        <li><strong>Procesamiento en el borde:</strong> La inteligencia local extrae únicamente los vectores matemáticos necesarios.</li>
+                    </ul>
+                `
+            },
+            2: {
+                tag: "Paso 02 — Seguridad Criptográfica",
+                title: "Validación Cifrada",
+                content: `
+                    <p>¡Aquí está la magia de la seguridad! Como <strong>Nully</strong> te muestro que no guardamos ninguna base de datos con tus fotos o rostros reales.</p>
+                    <ul>
+                        <li><strong>Enclaves seguros:</strong> La validación se realiza mediante tokens cifrados de alta resistencia.</li>
+                        <li><strong>Privacidad de identidad:</strong> Verificamos que eres tú sin retener ninguna plantilla de tu rostro.</li>
+                    </ul>
+                `
+            },
+            3: {
+                tag: "Paso 03 — Cero Riesgo",
+                title: "Destrucción Efímera",
+                content: `
+                    <p>¡El paso final y el más importante! Una vez que confirmamos tu identidad y emitimos tu acceso, <strong>todo se borra al instante</strong>.</p>
+                    <ul>
+                        <li><strong>Sin rastro digital:</strong> Eliminamos cualquier vestigio temporal de la sesión en milisegundos.</li>
+                        <li><strong>Eliminación de riesgos:</strong> Al no haber almacenamiento central, no existe posibilidad de filtraciones de datos biométricos.</li>
+                    </ul>
+                `
+            }
+        };
+
+        function openStepModal(stepNumber) {
+            const data = stepsData[stepNumber];
+            if (data) {
+                stepModalTag.textContent = data.tag;
+                stepModalTitle.textContent = data.title;
+                stepModalText.innerHTML = data.content;
+                stepModal.style.display = 'flex';
+            }
+        }
+
+        function closeStepModalFunc() {
+            stepModal.style.display = 'none';
+        }
+
+        closeStepModalBtn.addEventListener('click', closeStepModalFunc);
+        closeStepModalBtn.addEventListener('touchstart', closeStepModalFunc);
+
+        window.addEventListener('click', (e) => {
+            if (e.target === stepModal) {
+                closeStepModalFunc();
+            }
+        });
 
 
         // --- LÓGICA INTERACTIVA DEL MODAL SDK ---
