@@ -152,7 +152,7 @@
             width: 100%;
             max-width: 1100px;
             margin: 0 auto 20px auto;
-            min-height: 380px; /* Altura fija para evitar saltos entre slides */
+            min-height: 380px;
         }
 
         .hero-slide {
@@ -243,7 +243,7 @@
             color: var(--accent-cyan);
         }
 
-        /* Slide 2: Diseño Didáctico con Nully */
+        /* Slide 2: Diseño Didáctico con Nully Estilo Cómics */
         .hero-didactic-layout {
             display: flex;
             align-items: center;
@@ -263,15 +263,21 @@
 
         .nully-container {
             display: flex;
+            align-items: center;
+            gap: 15px;
+            max-width: 360px;
+            margin: 0 auto;
+        }
+
+        .nully-avatar-box {
+            display: flex;
             flex-direction: column;
             align-items: center;
-            max-width: 240px;
-            margin: 0 auto;
-            text-align: center;
+            flex-shrink: 0;
         }
 
         .nully-avatar-img {
-            width: 170px;
+            width: 130px;
             height: auto;
             filter: drop-shadow(0 10px 20px rgba(2, 132, 199, 0.35));
             animation: floatNully 3s ease-in-out infinite;
@@ -282,16 +288,45 @@
             50% { transform: translateY(-8px); }
         }
 
+        /* Estilo Globo de Diálogo (Bocadillo) */
         .speech-bubble {
+            position: relative;
             background: #ffffff;
             border: 2px solid var(--accent-cyan);
             border-radius: 14px;
-            padding: 10px 14px;
-            margin-top: 10px;
+            padding: 14px 16px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
             color: var(--text-main);
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 500;
+            line-height: 1.4;
+            max-width: 220px;
+        }
+
+        /* Colita del bocadillo apuntando hacia la izquierda (hacia Nully) */
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 8px 10px 8px 0;
+            border-style: solid;
+            border-color: transparent var(--accent-cyan) transparent transparent;
+            display: block;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 7px 9px 7px 0;
+            border-style: solid;
+            border-color: transparent #ffffff transparent transparent;
+            display: block;
+            z-index: 1;
         }
 
         .didactic-content-box {
@@ -879,14 +914,16 @@
                 </div>
             </div>
 
-            <!-- SLIDE 2: Versión Didáctica con Nully -->
+            <!-- SLIDE 2: Versión Didáctica con Nully y Globo de Diálogo Estilo Cómic -->
             <div class="hero-slide">
                 <div class="hero-didactic-layout">
-                    <!-- Columna Izquierda: Nully -->
+                    <!-- Columna Izquierda: Nully con Globo de Diálogo -->
                     <div class="nully-container">
-                        <img src="nully-avatar.png" alt="Nully Asistente NullEdge" class="nully-avatar-img" />
+                        <div class="nully-avatar-box">
+                            <img src="nully-avatar.png" alt="Nully Asistente NullEdge" class="nully-avatar-img" />
+                        </div>
                         <div class="speech-bubble">
-                            <p>¡Hola! Soy <strong>Nully</strong>. Te enseñaré cómo funciona nuestra privacidad total en 3 simples pasos.</p>
+                            <p style="margin:0;">¡Hola! Soy <strong>Nully</strong>. Te enseñaré cómo funciona nuestra privacidad total en 3 simples pasos.</p>
                         </div>
                     </div>
 
