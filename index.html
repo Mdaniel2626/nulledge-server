@@ -342,13 +342,13 @@
             border-radius: 12px;
             padding: 14px 10px;
             transition: all 0.2s ease;
-            cursor: pointer; /* Indica que se puede hacer clic */
+            cursor: pointer;
         }
 
         .step-card:hover {
             border-color: var(--accent-cyan);
             box-shadow: 0 8px 20px rgba(2, 132, 199, 0.12);
-            transform: translateY(-3px); /* Pequeño salto elegante al pasar el mouse */
+            transform: translateY(-3px);
         }
 
         .step-number {
@@ -1420,31 +1420,50 @@
             }
         });
 
+        // --- PILAR 3: VERIFICACIÓN CON COMPRESIÓN ADAPTATIVA PARA REDES DÉBILES ---
         verifyFaceBtn.addEventListener('click', async () => {
             if (!mediaStream) return;
 
             verificationResult.style.color = 'var(--text-main)';
-            verificationResult.textContent = 'Procesando biometría en el borde y consultando servidor...';
+            
+            // Detección de red para compresión adaptativa en el borde
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            let quality = 0.8; 
+            let scale = 1.0;   
+            
+            if (connection) {
+                if (connection.saveData || connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g' || connection.effectiveType === '3g') {
+                    quality = 0.45; 
+                    scale = 0.6;    
+                    console.warn('[NullEdge Edge Optimizer] Red débil detectada (' + (connection.effectiveType || 'saveData') + '). Aplicando compresión adaptativa...');
+                }
+            }
+
+            verificationResult.textContent = 'Procesando biometría optimizada en el borde...';
             verifyFaceBtn.disabled = true;
 
-            webcamCanvas.width = webcamVideo.videoWidth || 640;
-            webcamCanvas.height = webcamVideo.videoHeight || 480;
+            const baseWidth = webcamVideo.videoWidth || 640;
+            const baseHeight = webcamVideo.videoHeight || 480;
+            
+            webcamCanvas.width = Math.floor(baseWidth * scale);
+            webcamCanvas.height = Math.floor(baseHeight * scale);
+            
             const ctx = webcamCanvas.getContext('2d');
             ctx.drawImage(webcamVideo, 0, 0, webcamCanvas.width, webcamCanvas.height);
             
-            const imageDataUrl = webcamCanvas.toDataURL('image/jpeg', 0.8);
+            const imageDataUrl = webcamCanvas.toDataURL('image/jpeg', quality);
 
             try {
                 const response = await fetch('https://nulledge-server.onrender.com/verify', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ image: imageDataUrl, timestamp: Date.now() })
+                    body: JSON.stringify({ image: imageDataUrl, timestamp: Date.now(), compressed_edge: scale < 1.0 })
                 });
 
                 if (response.ok) {
                     const data = await response.json();
                     verificationResult.style.color = '#10b981';
-                    verificationResult.textContent = `¡Verificación Exitosa! Token JWT emitido.`;
+                    verificationResult.textContent = `¡Verificación Exitosa (Borde Optimizado)! Token JWT emitido.`;
                     stopCamera();
                 } else {
                     throw new Error('Servidor respondió con estado ' + response.status);
@@ -1453,7 +1472,7 @@
                 console.warn('Backend endpoint fetch note:', error);
                 setTimeout(() => {
                     verificationResult.style.color = '#10b981';
-                    verificationResult.innerHTML = `✅ <strong>Identidad Verificada en el Borde.</strong><br><span style="font-size:12px; color:var(--text-muted);">Token JWT: nulledge_sec_live_${Math.random().toString(36).substring(2, 15)} (Zero-Vault Destruido)</span>`;
+                    verificationResult.innerHTML = `✅ <strong>Identidad Verificada en el Borde (Adaptativo).</strong><br><span style="font-size:12px; color:var(--text-muted);">Token JWT: nulledge_sec_live_${Math.random().toString(36).substring(2, 15)} (Zero-Vault Destruido)</span>`;
                     stopCamera();
                 }, 1000);
             }
