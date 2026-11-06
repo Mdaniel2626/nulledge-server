@@ -993,8 +993,8 @@
             <!-- SLIDE 1: Tarjeta Blanca Enterprise Original -->
             <div class="hero-slide active">
                 <div class="hero-content">
-                    <h1>NullEdge Verify<br><span>Identidad Digital Universal.<br><span>Privacidad Biométrica Total.</span></h1>
-                    <p class="subtitle">SDK Biométrico con Criptografía ZKP y Atestación Anti-deepfake.<br><span>Cero almacenamiento de datos, para máxima seguridad corporativa.</p>
+                    <h1>NullEdge Verify<br><span>Identidad Digital Universal.<br><span>Seguridad Biométrica Total.</span></h1>
+                    <p class="subtitle">SDK Biométrico con Criptografía ZKP y Atestación Anti-deepfake.<br><span>Cero almacenamiento de datos, máxima privacidad.</p>
                     <div class="hero-buttons">
                         <a href="#verificacion" class="btn-cta">Probar Verificación Real</a>
                         <a href="#sandbox" class="btn-cta btn-secondary">Sandbox API</a>
@@ -1008,7 +1008,7 @@
                     <!-- Columna Izquierda: Nully Grande con Globo Superior -->
                     <div class="nully-container">
                         <div class="speech-bubble">
-                            <p style="margin:0;">¡Hola! Soy Nully. <br> ¿Quieres saber como funciona NullEdge Verify?<br> Haz clic en las tarjetas.</p>
+                            <p style="margin:0;">¡Hola! Soy Nully! <br> ¿Quieres saber como funciona NullEdge Verify?<br> Haz clic en las tarjetas.</p>
                         </div>
                         <img src="nully-avatar.png" alt="Nully Asistente NullEdge" class="nully-avatar-img" />
                     </div>
@@ -1021,18 +1021,18 @@
                         <div class="didactic-steps-grid">
                             <div class="step-card" onclick="openStepModal(1)">
                                 <div class="step-number">01</div>
-                                <h3>Captura en el Borde</h3>
+                                <h3>Verificación.</h3>
                                 <p>El rostro o vector biométrico se procesa en tu dispositivo local.</p>
                             </div>
                             <div class="step-card" onclick="openStepModal(2)">
                                 <div class="step-number">02</div>
-                                <h3>Validación Cifrada</h3>
-                                <p>Se valida mediante enclaves seguros sin guardar plantillas.</p>
+                                <h3>Validación.</h3>
+                                <p>Se valida al usuario mediante enclaves seguros sin guardar registros.</p>
                             </div>
                             <div class="step-card" onclick="openStepModal(3)">
                                 <div class="step-number">03</div>
-                                <h3>Destrucción Efímera</h3>
-                                <p>Los datos se borran al instante, eliminando todo riesgo.</p>
+                                <h3>Destrucción.</h3>
+                                <p>Los datos validados se borran al instante, eliminando todo riesgo.</p>
                             </div>
                         </div>
                     </div>
@@ -1275,19 +1275,19 @@
 
         const stepsData = {
             1: {
-                tag: "Paso 01 — Arquitectura Local",
-                title: "Captura en el Borde",
-                content: `<p>¡Hola de nuevo! Como tu asistente <strong>Nully</strong> te explico: en este primer paso, cuando escaneas tu rostro o vector biométrico, <strong>todo el procesamiento ocurre directamente en tu dispositivo</strong>.</p>`
+                tag: "Paso 01 — Captura en el Borde.",
+                title: "Verificación de Identidad",
+                content: `<p><strong>En este primer paso:</strong> Se verifica tu identidad escaneando tu rostro o vector biométrico en vivo de forma efímera. Todo el procesamiento ocurre directamente en tu dispositivo</strong>.</p>`
             },
             2: {
                 tag: "Paso 02 — Seguridad ZKP",
-                title: "Validación Cifrada",
-                content: `<p>¡Aquí está la magia de la criptografía! Generamos una <strong>Prueba de Conocimiento Cero (ZKP)</strong> local para validar tu identidad sin exponer datos en tránsito.</p>`
+                title: "Validación de Identidad Cifrada",
+                content: `<p>¡Aquí está la magia de la criptografía! El sistema procesa tus rasgos y genera una <strong>Prueba de Conocimiento Cero (ZKP)</strong> local para validar tu identidad sin exponer datos en tránsito.</p>`
             },
             3: {
                 tag: "Paso 03 — Cero Riesgo",
-                title: "Destrucción Efímera",
-                content: `<p>¡El paso final! Una vez emitido tu token seguro, <strong>todo se borra al instante</strong> en milisegundos.</p>`
+                title: "Destrucción de Datos",
+                content: `<p>¡El paso final! Una vez validado tu rostro, se emite un token seguro que confirma tu identidad. <strong> Unos milisegundos después, toda tu información biométrica se elimina de manera instantánea.</strong>Manteniendo resguardada tu privacidad.</p>`
             }
         };
 
