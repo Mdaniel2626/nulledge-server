@@ -372,8 +372,8 @@
             line-height: 1.35;
         }
 
-        /* --- MODAL DETALLE DE PASOS CON NULLY --- */
-        .step-modal-overlay {
+        /* --- MODAL GENERAL Y LEGAL --- */
+        .modal-overlay, .step-modal-overlay, .legal-modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -385,12 +385,14 @@
             padding: 20px;
         }
 
-        .step-modal-container {
+        .modal-container, .step-modal-container, .legal-modal-container {
             background: #ffffff;
             padding: 35px;
             border-radius: 20px;
             width: 100%;
-            max-width: 520px;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
             box-shadow: 0 25px 50px rgba(0,0,0,0.15);
             position: relative;
             border: 1px solid rgba(2, 132, 199, 0.3);
@@ -400,55 +402,25 @@
             gap: 20px;
         }
 
-        .step-modal-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 20px;
-        }
-
-        .step-modal-avatar {
-            width: 80px;
-            height: auto;
-            flex-shrink: 0;
-        }
-
-        .step-modal-title-box h3 {
-            margin: 0 0 5px 0;
-            font-size: 20px;
-            color: var(--text-main);
-            font-weight: 800;
-        }
-
-        .step-modal-title-box span {
-            color: var(--accent-cyan);
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .step-modal-body p {
-            color: var(--text-muted);
+        .legal-modal-body {
             font-size: 14px;
             line-height: 1.6;
-            margin: 0 0 15px 0;
+            color: var(--text-muted);
         }
 
-        .step-modal-body ul {
-            margin: 0;
-            padding-left: 18px;
+        .legal-modal-body h3 {
             color: var(--text-main);
-            font-size: 13px;
-            line-height: 1.5;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-size: 16px;
         }
 
-        .step-modal-body li {
-            margin-bottom: 6px;
+        .legal-modal-body ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
         }
 
-        .step-modal-close {
+        .modal-close, .step-modal-close, .legal-modal-close {
             position: absolute;
             top: 20px; right: 20px;
             background: none; border: none;
@@ -457,7 +429,7 @@
             transition: color 0.2s;
         }
 
-        .step-modal-close:hover {
+        .modal-close:hover, .step-modal-close:hover, .legal-modal-close:hover {
             color: var(--text-main);
         }
 
@@ -526,7 +498,7 @@
             border: 1.5px solid rgba(2, 132, 199, 0.3);
             overflow: hidden;
             animation: neonPulse 3.5s infinite ease-in-out;
-            background: transparent; /* <--- Fondo transparente aplicado */
+            background: transparent;
             backdrop-filter: blur(10px);
             box-shadow: 0 12px 35px rgba(2, 132, 199, 0.12);
             flex-shrink: 0;
@@ -736,59 +708,7 @@
             overflow-y: auto;
         }
 
-        /* --- MODAL DE ACCESO SDK --- */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(6px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal-container {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            position: relative;
-            border: 1px solid #e2e8f0;
-            text-align: left;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px; right: 20px;
-            background: none; border: none;
-            font-size: 24px; cursor: pointer;
-            color: var(--text-muted);
-            transition: color 0.2s;
-        }
-
-        .modal-close:hover {
-            color: var(--text-main);
-        }
-
-        .modal-container h2 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .modal-container p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-
+        /* --- FORMULARIOS --- */
         .form-group {
             margin-bottom: 20px;
         }
@@ -935,6 +855,7 @@
             color: var(--text-muted);
             font-size: 14px;
             transition: color 0.2s;
+            cursor: pointer;
         }
 
         .footer-links a:hover {
@@ -963,7 +884,7 @@
             .sandbox-grid { grid-template-columns: 1fr; }
             .footer-container { grid-template-columns: 1fr; gap: 30px; }
             .footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
-            .modal-container, .step-modal-container { padding: 25px 20px; }
+            .modal-container, .step-modal-container, .legal-modal-container { padding: 25px 20px; }
         }
     </style>
 </head>
@@ -994,7 +915,7 @@
             <div class="hero-slide active">
                 <div class="hero-content">
                     <h1>NullEdge Verify<br><span>Identidad Digital Universal.<br><span>Seguridad Biométrica Total.</span></h1>
-                    <p class="subtitle">SDK Biométrico con Criptografía ZKP y Atestación Anti-deepfake.<br><span>Cero almacenamiento de datos, máxima privacidad.</p>
+                    <p class="subtitle">SDK Biométrico con Criptografía ZKP y Atestación Anti-deepfake.<br><span>Cero almacenamiento de datos, máxima privacidad.</span></p>
                     <div class="hero-buttons">
                         <a href="#verificacion" class="btn-cta">Probar Verificación Real</a>
                         <a href="#sandbox" class="btn-cta btn-secondary">Sandbox API</a>
@@ -1016,7 +937,7 @@
                     <!-- Columna Derecha: Tarjetas Didácticas Clickeables -->
                     <div class="didactic-content-box">
                         <span style="display:inline-block; margin-bottom:8px; background:rgba(2, 132, 199, 0.1); color:var(--accent-cyan); padding:5px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">¿Cómo Funciona?</span>
-                        <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; color: var(--text-main);">Privacidad Absoluta</h2>
+                        <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; color: var(--text-main);">Privacidad Absoluta en 3 pasos:</h2>
                         
                         <div class="didactic-steps-grid">
                             <div class="step-card" onclick="openStepModal(1)">
@@ -1079,6 +1000,75 @@
                 </div>
             </div>
             <div class="step-modal-body" id="stepModalText"></div>
+        </div>
+    </div>
+
+    <!-- MODAL POLÍTICA DE PRIVACIDAD (LEY 21.719 / GDPR / CCPA) -->
+    <div id="privacyModal" class="legal-modal-overlay">
+        <div class="legal-modal-container">
+            <button class="legal-modal-close" onclick="closeLegalModal('privacyModal')">&times;</button>
+            <h2>Política de Privacidad y Protección de Datos</h2>
+            <div class="legal-modal-body">
+                <p><strong>Última actualización:</strong> Noviembre de 2026 | <strong>Titular:</strong> NullEdge Technologies</p>
+                
+                <h3>1. Compromiso Arquitectónico y Estándares Globales</h3>
+                <p>NullEdge Technologies opera bajo el principio estricto de <em>Zero-Vault Architecture</em>. Cumplimos rigurosamente con la legislación chilena (Ley 19.628 y su modernización mediante la <strong>Ley 21.719</strong>) y nos alineamos con los más altos estándares internacionales de privacidad, incluyendo el <strong>GDPR de la Unión Europea</strong> y la <strong>CCPA de California (EE.UU.)</strong>.</p>
+                
+                <h3>2. Datos Recopilados y Minimización</h3>
+                <ul>
+                    <li><strong>Datos Biométricos (No Almacenados):</strong> Ninguna imagen facial ni plantilla biométrica es retenida ni enviada en crudo a nuestros servidores centrales.</li>
+                    <li><strong>Procesamiento en el Borde:</strong> El análisis biométrico se ejecuta íntegramente en el dispositivo local (edge-device) del usuario, destruyendo la captura de forma efímera en milisegundos tras generar la prueba criptográfica.</li>
+                    <li><strong>Metadatos Técnicos Mínimos:</strong> Solo se procesan marcas de tiempo y metadatos de atestación de hardware para la emisión segura de tokens JWT (sin asociar identidad personal permanente).</li>
+                </ul>
+
+                <h3>3. Consentimiento Explícito y Derechos ARCO</h3>
+                <p>El tratamiento biométrico requiere consentimiento explícito, informado e inequívoco (sin casillas pre-marcadas). Los usuarios pueden ejercer en todo momento sus <strong>Derechos ARCO</strong> (Acceso, Rectificación, Cancelación y Oposición) a través del canal directo: <strong>privacy@getnulledge.com</strong>.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TÉRMINOS DE SERVICIO (SDK B2B / LEY 19.496 / ARBITRAJE / EXPORTACIÓN) -->
+    <div id="termsModal" class="legal-modal-overlay">
+        <div class="legal-modal-container">
+            <button class="legal-modal-close" onclick="closeLegalModal('termsModal')">&times;</button>
+            <h2>Términos y Condiciones del Servicio</h2>
+            <div class="legal-modal-body">
+                <p><strong>NullEdge Verify | Licenciamiento Enterprise B2B</strong></p>
+
+                <h3>1. Objeto y Licenciamiento de SDK</h3>
+                <p>El Cliente adquiere una licencia de uso no exclusiva e intransferible para integrar el SDK de <strong>NullEdge Verify</strong>. Queda estrictamente prohibida la divulgación o entrega del código fuente, el cual constituye secreto industrial protegido por la propiedad intelectual (DDI/CRI) y patentes industriales (INAPI).</p>
+
+                <h3>2. Restricciones, Propiedad Intelectual y Anti-Scraping</h3>
+                <p>Todo material, marca, logotipo y algoritmo criptográfico ZKP está protegido. Se prohíbe la ingeniería inversa, descompilación o <em>scraping</em> no autorizado.</p>
+
+                <h3>3. Gobernanza Global, Arbitraje y Ley Aplicable</h3>
+                <p>Estos términos se rigen por las leyes de la República de Chile (respetando los derechos de los consumidores bajo la Ley 19.496). Para clientes internacionales corporativos, las controversias complejas se someten a arbitraje comercial internacional bajo estándares globales reconocidos.</p>
+
+                <h3>4. Control de Exportación y Cumplimiento Transfronterizo</h3>
+                <p>Se prohíbe el uso o exportación del SDK de NullEdge en jurisdicciones sujetas a sanciones internacionales o que violen regulaciones tecnológicas transfronterizas.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SEGURIDAD Y CUMPLIMIENTO -->
+    <div id="securityModal" class="legal-modal-overlay">
+        <div class="legal-modal-container">
+            <button class="legal-modal-close" onclick="closeLegalModal('securityModal')">&times;</button>
+            <h2>Seguridad y Cibercompliance</h2>
+            <div class="legal-modal-body">
+                <p><strong>Declaración Técnica para CISOs y CISPA</strong></p>
+
+                <h3>1. Criptografía y Estándares de Red</h3>
+                <ul>
+                    <li>Cifrado TLS 1.3 de extremo a extremo en todas las comunicaciones API.</li>
+                    <li>Pruebas de Conocimiento Cero (ZKP) con funciones hash de alta resistencia.</li>
+                    <li>Atestación de hardware para bloqueo activo de ataques de suplantación y deepfakes en tiempo real.</li>
+                </ul>
+
+                <h3>2. Mitigación de Riesgos Normativos</h3>
+                <p>Al no almacenar bases de datos biométricas centrales, NullEdge elimina el riesgo estructural de filtración masiva de datos, blindando a las empresas clientes frente a las sanciones y auditorías más estrictas de la Ley 21.719, GDPR y normativas globales.</p>
+                <p>Contacto de seguridad: <strong>security@nulledge.com</strong></p>
+            </div>
         </div>
     </div>
 
@@ -1217,9 +1207,9 @@
             <div class="footer-links">
                 <h4>Legal & Privacidad</h4>
                 <ul>
-                    <li><a href="#" onclick="alert('NullEdge opera bajo estricto diseño Zero-Vault: ninguna biometría es almacenada.'); return false;">Política de Privacidad</a></li>
-                    <li><a href="#" onclick="alert('Términos de servicio para despliegue Enterprise v2.6'); return false;">Términos de Servicio</a></li>
-                    <li><a href="#" onclick="alert('Contacto de seguridad: security@nulledge.com'); return false;">Seguridad y Cumplimiento</a></li>
+                    <li><a href="#" onclick="openLegalModal('privacyModal'); return false;">Política de Privacidad</a></li>
+                    <li><a href="#" onclick="openLegalModal('termsModal'); return false;">Términos de Servicio</a></li>
+                    <li><a href="#" onclick="openLegalModal('securityModal'); return false;">Seguridad y Cumplimiento</a></li>
                 </ul>
             </div>
         </div>
@@ -1277,7 +1267,7 @@
             1: {
                 tag: "Paso 01 — Captura en el Borde.",
                 title: "Verificación de Identidad",
-                content: `<p><strong>En este primer paso:</strong> Se verifica tu identidad escaneando tu rostro o vector biométrico en vivo de forma efímera. Todo el procesamiento ocurre directamente en tu dispositivo</strong>.</p>`
+                content: `<p><strong>En este primer paso:</strong> Se verifica tu identidad escaneando tu rostro o vector biométrico en vivo de forma efímera. Todo el procesamiento ocurre directamente en tu dispositivo.</p>`
             },
             2: {
                 tag: "Paso 02 — Seguridad ZKP",
@@ -1287,7 +1277,7 @@
             3: {
                 tag: "Paso 03 — Cero Riesgo",
                 title: "Destrucción de Datos",
-                content: `<p>¡El paso final! Una vez validado tu rostro, se emite un token seguro que confirma tu identidad. <strong> Unos milisegundos después, toda tu información biométrica se elimina de manera instantánea.</strong>Manteniendo resguardada tu privacidad.</p>`
+                content: `<p>¡El paso final! Una vez validado tu rostro, se emite un token seguro que confirma tu identidad. <strong>Unos milisegundos después, toda tu información biométrica se elimina de manera instantánea.</strong> Manteniendo resguardada tu privacidad.</p>`
             }
         };
 
@@ -1312,6 +1302,24 @@
             if (e.target === stepModal) { closeStepModalFunc(); }
         });
 
+        // --- MODALES LEGALES ---
+        function openLegalModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function closeLegalModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.style.display = 'none';
+        }
+
+        window.addEventListener('click', (e) => {
+            ['privacyModal', 'termsModal', 'securityModal', 'sdkModal'].forEach(id => {
+                const m = document.getElementById(id);
+                if (e.target === m) m.style.display = 'none';
+            });
+        });
+
         // --- MODAL SDK ---
         const modal = document.getElementById('sdkModal');
         const openBtn = document.getElementById('openSdkModalBtn');
@@ -1325,7 +1333,6 @@
         if(openBtn) openBtn.addEventListener('click', openModal);
         if(footerSdkBtn) footerSdkBtn.addEventListener('click', openModal);
         if(closeBtn) closeBtn.addEventListener('click', closeModal);
-        window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
         if(sdkForm) {
             sdkForm.addEventListener('submit', (e) => {
@@ -1443,7 +1450,7 @@
                     verificationResult.textContent = `¡Verificación ZKP Exitosa! Token JWT emitido bajo cifrado Zero-Vault.`;
                     stopCamera();
                 } else {
-                    throw new Error('Estado ' + response.status);
+                    throw new Error('State ' + response.status);
                 }
             } catch (error) {
                 console.warn('Backend endpoint fetch note:', error);
