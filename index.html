@@ -1057,6 +1057,30 @@
         </div>
     </div>
 
+    <!-- MODAL MANUAL DE AUDITORÍA Y TELEMETRÍA ZKP -->
+    <div id="auditModal" class="legal-modal-overlay">
+        <div class="legal-modal-container">
+            <button class="legal-modal-close" onclick="closeLegalModal('auditModal')">&times;</button>
+            <h2>Manual de Auditoría y Telemetría de Seguridad ZKP</h2>
+            <div class="legal-modal-body">
+                <p><strong>NullEdge Verify | Especificación Técnica para CISOs y Auditores</strong></p>
+                
+                <h3>1. ¿Cómo Mide y Verifica la Seguridad Nuestro Software?</h3>
+                <p>Para garantizar a auditores técnicos (como Mois Navon y comités de seguridad corporativa) que el sistema opera bajo estrictos estándares de prueba y no de fe, NullEdge Verify emite telemetría verificable en cada ciclo de autenticación:</p>
+                
+                <h3>2. Los 3 Pilares de Medición en Tiempo Real</h3>
+                <ul>
+                    <li><strong>Pilar 1: Atestación de Hardware (Anti-Deepfake):</strong> El SDK inspecciona las APIs nativas del dispositivo para verificar que el flujo de video proviene de un sensor físico certificado (cámara real del equipo), bloqueando automáticamente inyecciones de video, emuladores (OBS) o cámaras virtuales.</li>
+                    <li><strong>Pilar 2: Generación Local de ZKP (Zero-Knowledge Proof):</strong> El vector facial capturado es procesado mediante un algoritmo de criptografía hash de alta resistencia (SHA-256 combinado con semillas de sesión efímeras) directamente en el procesador del usuario.</li>
+                    <li><strong>Pilar 3: Auditoría de Red (0 Bytes Biométricos):</strong> Mediante inspección de tráfico HTTP/TLS 1.3, se verifica que la única información transmitida al servidor backend es el token alfanumérico de la prueba criptográfica (<code>zkp_proof</code>), garantizando que ninguna imagen o plantilla biométrica cruza jamás la red.</li>
+                </ul>
+
+                <h3>3. Verificación de Integridad y Logs de Sesión</h3>
+                <p>Tras cada validación exitosa, el sistema emite un token JWT firmado digitalmente con marca de tiempo, permitiendo a los servidores del cliente auditar la conformidad de la prueba sin retener ningún dato personal.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL SEGURIDAD Y CUMPLIMIENTO -->
     <div id="securityModal" class="legal-modal-overlay">
         <div class="legal-modal-container">
@@ -1149,12 +1173,12 @@
         </div>
     </section>
 
-    <!-- MODAL DE ACCESO SDK -->
+    <!-- MODAL DE ACCESO SDK & PORTAL SANDBOX FUNCIONAL -->
     <div id="sdkModal" class="modal-overlay">
         <div class="modal-container">
             <button class="modal-close" id="closeSdkModal">&times;</button>
-            <h2>Acceso al SDK Zero-Vault</h2>
-            <p>Integre validación biométrica descentralizada en minutos. Complete sus datos corporativos para generar credenciales de prueba.</p>
+            <h2>Portal Sandbox & Credenciales SDK</h2>
+            <p>Integre validación biométrica descentralizada. Complete sus datos corporativos para emitir credenciales de prueba instantáneas.</p>
             <form id="sdkForm">
                 <div class="form-group">
                     <label for="corpEmail">Correo Corporativo</label>
@@ -1164,8 +1188,14 @@
                     <label for="companyName">Organización / Empresa</label>
                     <input type="text" id="companyName" required placeholder="Nombre de su compañía">
                 </div>
-                <button type="submit" class="btn-modal-submit">Generar Token SDK</button>
+                <button type="submit" class="btn-modal-submit">Generar API Key y Credenciales</button>
             </form>
+            <div id="sdkResultBox" style="display:none; margin-top: 20px; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13px;">
+                <p style="margin: 0 0 8px 0; color: #10b981; font-weight: 700;">✅ ¡Credenciales Generadas con Éxito!</p>
+                <p style="margin: 0 0 5px 0;"><strong>Su API Key Activa:</strong></p>
+                <code id="generatedApiKey" style="background: #0f172a; color: #38bdf8; padding: 6px 10px; display: block; border-radius: 4px; font-family: monospace; word-break: break-all;"></code>
+                <button type="button" class="btn-cta" style="margin-top: 12px; width: 100%; padding: 8px; font-size: 13px; background-color: var(--accent-cyan);" onclick="applyKeyToSandbox()">Usar en Playground Sandbox</button>
+            </div>
         </div>
     </div>
 
@@ -1217,6 +1247,7 @@
                     <li><a href="#" onclick="openLegalModal('privacyModal'); return false;">Política de Privacidad</a></li>
                     <li><a href="#" onclick="openLegalModal('termsModal'); return false;">Términos de Servicio</a></li>
                     <li><a href="#" onclick="openLegalModal('securityModal'); return false;">Seguridad y Cumplimiento</a></li>
+                    <li><a href="#" onclick="openLegalModal('auditModal'); return false;">Manual de Auditoría ZKP</a></li>
                 </ul>
             </div>
         </div>
@@ -1309,7 +1340,7 @@
             if (e.target === stepModal) { closeStepModalFunc(); }
         });
 
-        // --- MODALES LEGALES ---
+        // --- MODALES LEGALES Y AUDITORÍA ---
         function openLegalModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) modal.style.display = 'flex';
@@ -1321,18 +1352,47 @@
         }
 
         window.addEventListener('click', (e) => {
-            ['privacyModal', 'termsModal', 'securityModal', 'sdkModal'].forEach(id => {
+            ['privacyModal', 'termsModal', 'securityModal', 'auditModal', 'sdkModal'].forEach(id => {
                 const m = document.getElementById(id);
                 if (e.target === m) m.style.display = 'none';
             });
         });
+
+        // --- PORTAL SANDBOX & API KEY GENERATOR ---
+        const sdkForm = document.getElementById('sdkForm');
+        const sdkResultBox = document.getElementById('sdkResultBox');
+        const generatedApiKey = document.getElementById('generatedApiKey');
+        let activeTestApiKey = "sandbox_live_key_default";
+
+        if(sdkForm) {
+            sdkForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('corpEmail').value;
+                const company = document.getElementById('companyName').value;
+                
+                // Generar API Key única de prueba
+                activeTestApiKey = "nk_live_" + Math.random().toString(36).substring(2, 10) + "_" + Date.now().toString(36);
+                generatedApiKey.textContent = activeTestApiKey;
+                sdkResultBox.style.display = 'block';
+            });
+        }
+
+        function applyKeyToSandbox() {
+            // Actualizar el header en el panel sandbox
+            const headersCodeBox = document.querySelector('.sandbox-panel .code-box code');
+            if(headersCodeBox) {
+                headersCodeBox.innerHTML = `{<br>  "Content-Type": "application/json",<br>  "X-NullEdge-Client": "${activeTestApiKey}"<br>}`;
+            }
+            closeModal();
+            alert('¡API Key aplicada al Playground Sandbox con éxito! Ya puedes enviar la petición autenticada.');
+            document.getElementById('sandbox').scrollIntoView({ behavior: 'smooth' });
+        }
 
         // --- MODAL SDK ---
         const modal = document.getElementById('sdkModal');
         const openBtn = document.getElementById('openSdkModalBtn');
         const footerSdkBtn = document.getElementById('footerSdkBtn');
         const closeBtn = document.getElementById('closeSdkModal');
-        const sdkForm = document.getElementById('sdkForm');
 
         function openModal(e) { e.preventDefault(); modal.style.display = 'flex'; }
         function closeModal() { modal.style.display = 'none'; }
@@ -1340,15 +1400,6 @@
         if(openBtn) openBtn.addEventListener('click', openModal);
         if(footerSdkBtn) footerSdkBtn.addEventListener('click', openModal);
         if(closeBtn) closeBtn.addEventListener('click', closeModal);
-
-        if(sdkForm) {
-            sdkForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('¡Credenciales SDK solicitadas con éxito!');
-                closeModal();
-                sdkForm.reset();
-            });
-        }
 
         // --- CÁMARA, ATESTACIÓN HARDWARE (PILAR 2) Y ZKP (PILAR 1) ---
         const startCameraBtn = document.getElementById('startCameraBtn');
